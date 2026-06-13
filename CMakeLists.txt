@@ -21,6 +21,14 @@ endif()
 # Output directories
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin/${PLATFORM_NAME})
 
+if(WIN32)
+    set(MBEDTLS_LIB_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../libmbedtls/build/Release/libmbedtls.lib)
+    set(FMT_LIB_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../libfmt/build/Release/fmt.lib)
+else()
+    set(MBEDTLS_LIB_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../libmbedtls/bin/${PLATFORM_NAME}/libmbedtls.a)
+    set(FMT_LIB_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../libfmt/bin/${PLATFORM_NAME}/libfmt.a)
+endif()
+
 # Collect source files from all subdirectories
 file(GLOB_RECURSE TOOLCHAIN_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
@@ -35,13 +43,15 @@ add_library(toolchain STATIC ${TOOLCHAIN_SOURCES})
 target_include_directories(toolchain
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../libmbedtls/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../libfmt/include
 )
 
 # Link dependencies
 target_link_libraries(toolchain
     PUBLIC
-        mbedtls
-        fmt
+    ${MBEDTLS_LIB_PATH}
+    ${FMT_LIB_PATH}
 )
 
 # Compiler flags
