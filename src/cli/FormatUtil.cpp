@@ -89,7 +89,7 @@ tc::cli::FormatUtil::formatBytesAsString(const byte_t *data, size_t size, bool u
 
     for (size_t i = 0; i < size; i++)
     {
-        output_str += fmt::format((upper_case ? "{:02X}" : "{:02x}"), data[i]);
+        output_str += fmt::format(fmt::runtime(upper_case ? "{:02X}" : "{:02x}"), data[i]);
         if (i + 1 < size)
         {
             output_str += delimiter;

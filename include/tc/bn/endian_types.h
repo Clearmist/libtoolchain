@@ -48,13 +48,13 @@ static inline void __local_bswap64(void *x)
 {
     uint64_t tmp = *((uint64_t *)x);
     *((uint64_t *)x) = ((uint64_t)(tmp << 56) & (uint64_t)0xff00000000000000ULL) |
-                       ((uint64_t)(tmp << 40) & (uint64_t)0x00ff000000000000ULL) |
-                       ((uint64_t)(tmp << 24) & (uint64_t)0x0000ff0000000000ULL) |
-                       ((uint64_t)(tmp << 8) & (uint64_t)0x000000ff00000000ULL) |
-                       ((uint64_t)(tmp >> 8) & (uint64_t)0x00000000ff000000ULL) |
-                       ((uint64_t)(tmp >> 24) & (uint64_t)0x0000000000ff0000ULL) |
-                       ((uint64_t)(tmp >> 40) & (uint64_t)0x000000000000ff00ULL) |
-                       ((uint64_t)(tmp >> 56) & (uint64_t)0x00000000000000ffULL);
+        ((uint64_t)(tmp << 40) & (uint64_t)0x00ff000000000000ULL) |
+        ((uint64_t)(tmp << 24) & (uint64_t)0x0000ff0000000000ULL) |
+        ((uint64_t)(tmp << 8) & (uint64_t)0x000000ff00000000ULL) |
+        ((uint64_t)(tmp >> 8) & (uint64_t)0x00000000ff000000ULL) |
+        ((uint64_t)(tmp >> 24) & (uint64_t)0x0000000000ff0000ULL) |
+        ((uint64_t)(tmp >> 40) & (uint64_t)0x000000000000ff00ULL) |
+        ((uint64_t)(tmp >> 56) & (uint64_t)0x00000000000000ffULL);
 }
 
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
@@ -176,7 +176,7 @@ template <typename T> struct le16
 {
   public:
     static_assert(sizeof(T) == sizeof(uint16_t), "le16 requires T to be 16 bit.");
-    static_assert(std::is_pod<T>::value, "le16 requires T to be a POD.");
+    static_assert(std::is_standard_layout<T>::value && std::is_trivial<T>::value, "le16 requires T to be a POD.");
 
     /// Unwrap value (Implicit)
     operator T() const
@@ -216,7 +216,7 @@ template <typename T> struct be16
 {
   public:
     static_assert(sizeof(T) == sizeof(uint16_t), "be16 requires T to be 16 bit.");
-    static_assert(std::is_pod<T>::value, "be16 requires T to be a POD.");
+    static_assert(std::is_standard_layout<T>::value && std::is_trivial<T>::value, "be16 requires T to be a POD.");
 
     /// Unwrap value (Implicit)
     operator T() const
@@ -256,7 +256,7 @@ template <typename T> struct le32
 {
   public:
     static_assert(sizeof(T) == sizeof(uint32_t), "le32 requires T to be 32 bit.");
-    static_assert(std::is_pod<T>::value, "le32 requires T to be a POD.");
+    static_assert(std::is_standard_layout<T>::value && std::is_trivial<T>::value, "le32 requires T to be a POD.");
 
     /// Unwrap value (Implicit)
     operator T() const
@@ -296,7 +296,7 @@ template <typename T> struct be32
 {
   public:
     static_assert(sizeof(T) == sizeof(uint32_t), "be32 requires T to be 32 bit.");
-    static_assert(std::is_pod<T>::value, "be32 requires T to be a POD.");
+    static_assert(std::is_standard_layout<T>::value && std::is_trivial<T>::value, "be32 requires T to be a POD.");
 
     /// Unwrap value (Implicit)
     operator T() const
@@ -336,7 +336,7 @@ template <typename T> struct le64
 {
   public:
     static_assert(sizeof(T) == sizeof(uint64_t), "le64 requires T to be 64 bit.");
-    static_assert(std::is_pod<T>::value, "le64 requires T to be a POD.");
+    static_assert(std::is_standard_layout<T>::value && std::is_trivial<T>::value, "le64 requires T to be a POD.");
 
     /// Unwrap value (Implicit)
     operator T() const
@@ -376,7 +376,7 @@ template <typename T> struct be64
 {
   public:
     static_assert(sizeof(T) == sizeof(uint64_t), "be64 requires T to be 64 bit.");
-    static_assert(std::is_pod<T>::value, "be64 requires T to be a POD.");
+    static_assert(std::is_standard_layout<T>::value && std::is_trivial<T>::value, "be64 requires T to be a POD.");
 
     /// Unwrap value (Implicit)
     operator T() const
