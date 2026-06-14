@@ -1,23 +1,23 @@
-	/**
-	 * @file		crypto.h
-	 * @brief       Declaration of the cryptography library
-	 */
+/**
+ * @file		crypto.h
+ * @brief       Declaration of the cryptography library
+ */
 #pragma once
-#include <tc/types.h>
 #include <tc/Exception.h>
+#include <tc/types.h>
 
-	/**
-	 * @namespace   tc::crypto
-	 * @brief       Namespace of the cryptography library
-	 */
+/**
+ * @namespace   tc::crypto
+ * @brief       Namespace of the cryptography library
+ */
 // Exceptions
 #include <tc/crypto/CryptoException.h>
 
 // Encryption Modes
-#include <tc/crypto/EcbEncryptor.h>
-#include <tc/crypto/CtrEncryptor.h>
 #include <tc/crypto/CbcEncryptor.h>
 #include <tc/crypto/CcmEncryptor.h>
+#include <tc/crypto/CtrEncryptor.h>
+#include <tc/crypto/EcbEncryptor.h>
 #include <tc/crypto/XtsEncryptor.h>
 
 // AES Encryption
@@ -46,8 +46,8 @@
 #include <tc/crypto/Aes256XtsEncryptor.h>
 
 // AES Encryption Streams
-#include <tc/crypto/Aes128CtrEncryptedStream.h>
 #include <tc/crypto/Aes128CbcEncryptedStream.h>
+#include <tc/crypto/Aes128CtrEncryptedStream.h>
 
 // DES/TDES Encryption
 #include <tc/crypto/DesEncryptor.h>
@@ -93,15 +93,15 @@
 #include <tc/crypto/RsaKey.h>
 #include <tc/crypto/RsaKeyGenerator.h>
 
-#include <tc/crypto/RsaPkcs1Signer.h>
 #include <tc/crypto/RsaPkcs1Md5Signer.h>
 #include <tc/crypto/RsaPkcs1Sha1Signer.h>
 #include <tc/crypto/RsaPkcs1Sha2256Signer.h>
 #include <tc/crypto/RsaPkcs1Sha2512Signer.h>
+#include <tc/crypto/RsaPkcs1Signer.h>
 
-#include <tc/crypto/RsaPssSigner.h>
 #include <tc/crypto/RsaPssSha2256Signer.h>
 #include <tc/crypto/RsaPssSha2512Signer.h>
+#include <tc/crypto/RsaPssSigner.h>
 
 #include <tc/crypto/RsaOaepEncryptor.h>
 #include <tc/crypto/RsaOaepSha2256Encryptor.h>

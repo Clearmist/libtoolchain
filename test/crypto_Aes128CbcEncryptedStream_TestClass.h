@@ -5,35 +5,36 @@
 
 class crypto_Aes128CbcEncryptedStream_TestClass : public ITestClass
 {
-public:
-	crypto_Aes128CbcEncryptedStream_TestClass();
+  public:
+    crypto_Aes128CbcEncryptedStream_TestClass();
 
-		// this will run the tests
-	void runAllTests();
+    // this will run the tests
+    void runAllTests();
 
-		// this is the label for this test (for filtering purposes)
-	const std::string& getTestTag() const;
+    // this is the label for this test (for filtering purposes)
+    const std::string &getTestTag() const;
 
-		// this is where the test results are written
-	const std::vector<ITestClass::TestResult>& getTestResults() const;
-private:
-	std::string mTestTag;
-	std::vector<TestResult> mTestResults;
+    // this is where the test results are written
+    const std::vector<ITestClass::TestResult> &getTestResults() const;
 
-	void test_CreateEmptyStream_DefaultConstructor();
-	void test_CreateValidStream_CreateConstructor();
-	void test_RunTestCases();
+  private:
+    std::string mTestTag;
+    std::vector<TestResult> mTestResults;
 
-	struct TestCase
-	{
-		std::string test_name;
-		tc::ByteData key;
-		tc::ByteData iv;
-		tc::ByteData ciphertext;
-		int64_t read_offset;
-		size_t read_size;
-		tc::ByteData read_plaintext;
-	};
+    void test_CreateEmptyStream_DefaultConstructor();
+    void test_CreateValidStream_CreateConstructor();
+    void test_RunTestCases();
 
-	void util_Setup_TestCases(std::vector<crypto_Aes128CbcEncryptedStream_TestClass::TestCase>& test_cases);
+    struct TestCase
+    {
+        std::string test_name;
+        tc::ByteData key;
+        tc::ByteData iv;
+        tc::ByteData ciphertext;
+        int64_t read_offset;
+        size_t read_size;
+        tc::ByteData read_plaintext;
+    };
+
+    void util_Setup_TestCases(std::vector<crypto_Aes128CbcEncryptedStream_TestClass::TestCase> &test_cases);
 };

@@ -1,13 +1,13 @@
-	/**
-	 * @file		os.h
-	 * @brief       Declaration of the operating system (OS) library
-	 */
+/**
+ * @file		os.h
+ * @brief       Declaration of the operating system (OS) library
+ */
 #pragma once
-#include <tc/types.h>
 #include <tc/Exception.h>
+#include <tc/types.h>
 
-	/**
-	 * @namespace   tc::os
-	 * @brief       Namespace of the operating system (OS) library
-	 */
+/**
+ * @namespace   tc::os
+ * @brief       Namespace of the operating system (OS) library
+ */
 #include <tc/os/Environment.h>

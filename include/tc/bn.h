@@ -1,17 +1,17 @@
-	/**
-	 * @file		bn.h
-	 * @brief       Declaration of the binary literals library
-	 */
+/**
+ * @file		bn.h
+ * @brief       Declaration of the binary literals library
+ */
 #pragma once
-#include <tc/types.h>
 #include <tc/Exception.h>
+#include <tc/types.h>
 
-	/**
-	 * @namespace   tc::bn
-	 * @brief       Namespace of the binary literals library
-	 */
+/**
+ * @namespace   tc::bn
+ * @brief       Namespace of the binary literals library
+ */
 #include <tc/bn/binary_utils.h>
-#include <tc/bn/endian_types.h>
 #include <tc/bn/bitarray.h>
-#include <tc/bn/string.h>
+#include <tc/bn/endian_types.h>
 #include <tc/bn/pad.h>
+#include <tc/bn/string.h>

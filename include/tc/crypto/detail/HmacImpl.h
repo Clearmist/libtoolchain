@@ -1,107 +1,110 @@
-	/**
-	 * @file HmacImpl.h
-	 * @brief Declaration of tc::crypto::detail::HmacImpl
-	 * @author Jack (jakcron)
-	 * @version 0.2
-	 * @date 2020/06/06
-	 **/
+/**
+ * @file HmacImpl.h
+ * @brief Declaration of tc::crypto::detail::HmacImpl
+ * @author Jack (jakcron)
+ * @version 0.2
+ * @date 2020/06/06
+ **/
 #pragma once
-#include <tc/types.h>
 #include <tc/ByteData.h>
+#include <tc/types.h>
 
-namespace tc { namespace crypto { namespace detail {
-
-	/**
-	 * @class HmacImpl
-	 * @brief This class implements HMAC (<b>H</b>ash based <b>MAC</b>) as a template class.
-	 * 
-	 * @tparam HashFunction The class that implements the hash function used for HMAC calculation.
-	 */
-template <typename HashFunction>
-class HmacImpl
+namespace tc
 {
-public:
-	static const size_t kMacSize = HashFunction::kHashSize;
-	static const size_t kBlockSize = HashFunction::kBlockSize;
+namespace crypto
+{
+namespace detail
+{
 
-	HmacImpl() :
-		mHashFunction(),
-		mState(State::None)
-	{
-	}
-	~HmacImpl()
-	{
-		std::memset(mKeyDigest.data(), 0, mKeyDigest.size());
-		std::memset(mMac.data(), 0, mMac.size());
-		mState = State::None;
-	}
+/**
+ * @class HmacImpl
+ * @brief This class implements HMAC (<b>H</b>ash based <b>MAC</b>) as a template class.
+ *
+ * @tparam HashFunction The class that implements the hash function used for HMAC calculation.
+ */
+template <typename HashFunction> class HmacImpl
+{
+  public:
+    static const size_t kMacSize = HashFunction::kHashSize;
+    static const size_t kBlockSize = HashFunction::kBlockSize;
 
-	void initialize(const byte_t* key, size_t key_size)
-	{
-		std::memset(mKeyDigest.data(), 0x00, mKeyDigest.size());
+    HmacImpl() : mHashFunction(), mState(State::None) {}
+    ~HmacImpl()
+    {
+        std::memset(mKeyDigest.data(), 0, mKeyDigest.size());
+        std::memset(mMac.data(), 0, mMac.size());
+        mState = State::None;
+    }
 
-		if (key_size > kBlockSize)
-		{
-			mHashFunction.initialize();
-			mHashFunction.update(key, key_size);
-			mHashFunction.getHash(mKeyDigest.data());
-		}
-		else
-		{
-			std::memcpy(mKeyDigest.data(), key, key_size);
-		}
+    void initialize(const byte_t *key, size_t key_size)
+    {
+        std::memset(mKeyDigest.data(), 0x00, mKeyDigest.size());
 
-		for (uint32_t i = 0 ; i < kBlockSize / sizeof(uint32_t); i++)
-		{
-			((uint32_t*)mKeyDigest.data())[i] ^= uint32_t(0x36363636);
-		}
+        if (key_size > kBlockSize)
+        {
+            mHashFunction.initialize();
+            mHashFunction.update(key, key_size);
+            mHashFunction.getHash(mKeyDigest.data());
+        }
+        else
+        {
+            std::memcpy(mKeyDigest.data(), key, key_size);
+        }
 
-		mHashFunction.initialize();
-		mHashFunction.update(mKeyDigest.data(), mKeyDigest.size());
+        for (uint32_t i = 0; i < kBlockSize / sizeof(uint32_t); i++)
+        {
+            ((uint32_t *)mKeyDigest.data())[i] ^= uint32_t(0x36363636);
+        }
 
-		mState = State::Initialized;
-	}
+        mHashFunction.initialize();
+        mHashFunction.update(mKeyDigest.data(), mKeyDigest.size());
 
-	void update(const byte_t* data, size_t data_size)
-	{
-		mHashFunction.update(data, data_size);
-	}
+        mState = State::Initialized;
+    }
 
-	void getMac(byte_t* mac)
-	{
-		if (mState == State::Initialized)
-		{
-			mHashFunction.getHash(mMac.data());
+    void update(const byte_t *data, size_t data_size)
+    {
+        mHashFunction.update(data, data_size);
+    }
 
-			for (uint32_t i = 0 ; i < kBlockSize / sizeof(uint32_t); i++)
-			{
-				((uint32_t*)mKeyDigest.data())[i] ^= uint32_t(0x6A6A6A6A);
-			}
+    void getMac(byte_t *mac)
+    {
+        if (mState == State::Initialized)
+        {
+            mHashFunction.getHash(mMac.data());
 
-			mHashFunction.initialize();
-			mHashFunction.update(mKeyDigest.data(), mKeyDigest.size());
-			mHashFunction.update(mMac.data(), mMac.size());
-			mHashFunction.getHash(mMac.data());
+            for (uint32_t i = 0; i < kBlockSize / sizeof(uint32_t); i++)
+            {
+                ((uint32_t *)mKeyDigest.data())[i] ^= uint32_t(0x6A6A6A6A);
+            }
 
-			mState = State::Done;
-		}
-		if (mState == State::Done)
-		{
-			std::memcpy(mac, mMac.data(), mMac.size());
-		}		
-	}
-private:
-	enum class State
-	{
-		None,
-		Initialized,
-		Done
-	};
+            mHashFunction.initialize();
+            mHashFunction.update(mKeyDigest.data(), mKeyDigest.size());
+            mHashFunction.update(mMac.data(), mMac.size());
+            mHashFunction.getHash(mMac.data());
 
-	HashFunction mHashFunction;
-	std::array<byte_t, kBlockSize> mKeyDigest;
-	std::array<byte_t, kMacSize> mMac;
-	State mState;
+            mState = State::Done;
+        }
+        if (mState == State::Done)
+        {
+            std::memcpy(mac, mMac.data(), mMac.size());
+        }
+    }
+
+  private:
+    enum class State
+    {
+        None,
+        Initialized,
+        Done
+    };
+
+    HashFunction mHashFunction;
+    std::array<byte_t, kBlockSize> mKeyDigest;
+    std::array<byte_t, kMacSize> mMac;
+    State mState;
 };
 
-}}} // namespace tc::crypto::detail
+} // namespace detail
+} // namespace crypto
+} // namespace tc

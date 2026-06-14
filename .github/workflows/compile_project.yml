@@ -66,7 +66,7 @@ jobs:
     - name: Clone submodules
       run: git submodule init && git submodule update
     - name: Compile ${{ matrix.prog }}
-      run: msbuild .\build\visualstudio\${{ matrix.prog }}.sln /p:configuration=${{ matrix.configuration }} /p:platform=${{ matrix.platform }} 
+      run: msbuild .\build\visualstudio\${{ matrix.prog }}.sln /p:configuration=${{ matrix.configuration }} /p:platform=${{ matrix.platform }}
     - uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.prog }}-${{ matrix.dist }}
