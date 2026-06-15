@@ -55,6 +55,10 @@ target_link_libraries(toolchain
 )
 
 # Compiler flags
+if (MSVC)
+    target_compile_options(toolchain PRIVATE /utf-8)
+endif()
+
 if(NOT MSVC)
     target_compile_options(toolchain PRIVATE -Wall -Wno-unused-value -Wno-unused-but-set-variable -fPIC)
     if(APPLE)
